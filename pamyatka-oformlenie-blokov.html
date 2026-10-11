@@ -92,11 +92,13 @@ img{max-width:100%}
 .faq details p{margin:0;padding:0 16px 14px}
 
 /* ---------- запись на приём: всегда внизу экрана ---------- */
-.cta-bar{position:sticky;bottom:0;z-index:10;background:var(--s-card);border-top:3px solid var(--s-teal);box-shadow:0 -8px 20px -12px rgba(0,0,0,.35)}
-.cta-bar-in{display:flex;align-items:center;gap:14px;padding:12px 28px}
+/* полоса по ширине текста статьи: поля .s-main (28px) + поля .s-card (32px); приподнята над краем экрана, тень и снизу */
+.cta-bar{position:sticky;bottom:12px;z-index:10;margin:0 60px 12px;background:var(--s-card);border-top:3px solid var(--s-teal);border-radius:6px;box-shadow:0 6px 22px -6px rgba(0,0,0,.35)}
+.cta-bar-in{display:flex;align-items:center;gap:14px;padding:10px 20px}
 .cta-bar-icon{flex:none;color:var(--s-teal)}
-.cta-bar-text{flex:none;display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 14px}
-.site .cta-bar-phone{font-size:20px;font-weight:700;color:var(--s-ink);text-decoration:none;white-space:nowrap}
+.cta-bar-text{flex:none;display:flex;align-items:center;gap:2px 16px}
+.cta-bar-phones{display:grid}
+.site .cta-bar-phone{font-size:16px;line-height:1.3;font-weight:700;color:var(--s-ink);text-decoration:none;white-space:nowrap}
 .cta-bar-hours{font-size:13.5px;color:var(--s-muted);white-space:nowrap}
 .site .cta-bar-btn{margin-left:auto;background:var(--s-teal);color:var(--s-teal-ink);font:700 13px/1 var(--f-site);text-transform:uppercase;letter-spacing:.02em;padding:13px 20px;border-radius:3px;white-space:nowrap;text-decoration:none}
 
@@ -123,10 +125,11 @@ img{max-width:100%}
   .author-body{display:contents}
   .author-meta{grid-row:auto;grid-column:1 / -1;justify-self:end}
   .perks{padding:16px}
+  .cta-bar{margin-inline:14px;bottom:8px}
   .cta-bar-in{padding:10px 14px;gap:10px}
   .cta-bar-icon{display:none}
-  .cta-bar-text{flex-direction:column;gap:0}
-  .site .cta-bar-phone{font-size:17px}
+  .cta-bar-text{flex-direction:column;align-items:flex-start;gap:2px}
+  .site .cta-bar-phone{font-size:15px}
   .cta-bar-hours{font-size:12.5px}
   /* на узком экране надпись кнопки переносится, чтобы не наезжать на телефон */
   .site .cta-bar-btn{padding:10px 14px;font-size:12px;line-height:1.2;white-space:normal;text-align:center}
@@ -145,7 +148,7 @@ img{max-width:100%}
 .memo-shot .author,.memo-shot .dq,.memo-shot .perks{margin:0}
 .memo-shot .faq{margin:0;padding:0;border:0}
 .memo-shot .s-card:has(.cta-bar){padding:0}
-.memo-shot .cta-bar{position:static}
+.memo-shot .cta-bar{position:static;margin:0}
 </style>
 </head>
 <body>
@@ -190,12 +193,15 @@ img{max-width:100%}
 </div></div></div></div>
   </li>
   <li>
-    <p class="memo-t"><b>Запись на приём</b> — полоса внизу экрана, видна всё время при прокрутке: телефон, часы работы и зелёная кнопка «Записаться на приём».</p>
+    <p class="memo-t"><b>Запись на приём</b> — полоса внизу экрана по ширине текста, видна всё время при прокрутке: два телефона, часы работы и зелёная кнопка «Записаться на приём».</p>
     <div class="memo-shot"><div class="site"><div class="s-card"><div class="cta-bar" role="complementary" aria-label="Запись на приём">
   <div class="cta-bar-in">
     <svg class="cta-bar-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
     <div class="cta-bar-text">
-      <a class="cta-bar-phone" href="tel:+74952680748">+7 (495) 268-07-48</a>
+      <div class="cta-bar-phones">
+        <a class="cta-bar-phone" href="tel:+74952680748">+7 (495) 268-07-48</a>
+        <a class="cta-bar-phone" href="tel:+79153064708">+7 (915) 306-47-08</a>
+      </div>
       <span class="cta-bar-hours">пн–сб, 10:00–20:00</span>
     </div>
     <a class="cta-bar-btn" href="#">Записаться на приём</a>
