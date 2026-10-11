@@ -65,7 +65,10 @@ img{max-width:100%}
 .author-label{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--s-teal)}
 .author-line{font-size:14px;color:var(--s-muted);line-height:1.45;margin-top:2px}
 .site .author-name{display:block;font-size:16.5px;font-weight:700;margin-bottom:2px}
-.author-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+/* отметки — справа вверху, на строке «Автор статьи»: регалиям остаётся вся ширина */
+.author-body{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:16px;align-items:center}
+.author-line{grid-column:1 / -1}
+.author-meta{grid-row:1;grid-column:2;display:flex;flex-wrap:wrap;gap:6px}
 .chip{display:inline-flex;align-items:center;gap:5px;background:var(--s-teal-soft);font-size:12.5px;line-height:1;padding:5px 9px;border-radius:20px}
 .chip svg{color:var(--s-teal)}
 
@@ -94,7 +97,7 @@ img{max-width:100%}
 .cta-bar{position:sticky;bottom:0;z-index:10;background:var(--s-card);border-top:3px solid var(--s-teal);box-shadow:0 -8px 20px -12px rgba(0,0,0,.35)}
 .cta-bar-in{display:flex;align-items:center;gap:14px;padding:12px 28px}
 .cta-bar-icon{flex:none;color:var(--s-teal)}
-.cta-bar-text{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 14px;min-width:0}
+.cta-bar-text{flex:none;display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 14px}
 .site .cta-bar-phone{font-size:20px;font-weight:700;color:var(--s-ink);text-decoration:none;white-space:nowrap}
 .cta-bar-hours{font-size:13.5px;color:var(--s-muted);white-space:nowrap}
 .site .cta-bar-btn{margin-left:auto;background:var(--s-teal);color:var(--s-teal-ink);font:700 13px/1 var(--f-site);text-transform:uppercase;letter-spacing:.02em;padding:13px 20px;border-radius:3px;white-space:nowrap;text-decoration:none}
@@ -116,15 +119,19 @@ img{max-width:100%}
   .s-card h2{font-size:19px}
   .blk-img,.blk.r .blk-img{float:none;width:100%;max-width:none;aspect-ratio:4/3;margin:0 0 16px;object-position:50% 35%}
   .blk-img.nocrop{aspect-ratio:2/3;object-fit:contain}
-  .author{grid-template-columns:60px minmax(0,1fr);padding:14px;align-items:start}
+  /* напротив фото — только «Автор статьи»; имя, регалии и отметки — под фото во всю ширину (Сергей) */
+  .author{grid-template-columns:60px minmax(0,1fr);gap:10px 12px;padding:14px}
   .author-photo{width:60px;height:60px}
+  .author-body{display:contents}
+  .author-meta{grid-row:auto;grid-column:1 / -1}
   .perks{padding:16px}
   .cta-bar-in{padding:10px 14px;gap:10px}
   .cta-bar-icon{display:none}
   .cta-bar-text{flex-direction:column;gap:0}
   .site .cta-bar-phone{font-size:17px}
   .cta-bar-hours{font-size:12.5px}
-  .site .cta-bar-btn{padding:12px 14px;font-size:12px}
+  /* на узком экране надпись кнопки переносится, чтобы не наезжать на телефон */
+  .site .cta-bar-btn{padding:10px 14px;font-size:12px;line-height:1.2;white-space:normal;text-align:center}
   .s-foot{padding:14px 16px}
 }
 </style>
