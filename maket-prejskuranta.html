@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Макет прейскуранта клиники</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap">
+<style>
+/* Макет прейскуранта клиники — в стиле утверждённого макета статьи (11.10.2026).
+   Каждый врач — отдельный блок; общий прейскурант собирается из таких блоков */
+:root{
+  --s-bg:#FFFFFF; --s-top:#FFFFFF; --s-card:#FFFFFF; --s-soft:#F3F6FB; --s-ink:#1A1A1A; --s-muted:#5F6670;
+  --s-line:#DCE2EC; --s-teal:#2E6F69; --s-teal-ink:#FFFFFF; --s-teal-soft:#E4EFED;
+  --s-ask:#FFF1A8; --s-ask-ink:#3A3000; --s-ask-line:#E2B400;
+  --f-site:Roboto,Helvetica,Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--s-bg)}
+img{max-width:100%}
+.site{
+  container:site / inline-size;
+  max-width:1100px;margin:0 auto;
+  background:var(--s-bg);color:var(--s-ink);font:15.5px/1.62 var(--f-site);-webkit-font-smoothing:antialiased
+}
+.site a{color:var(--s-teal);text-underline-offset:2px}
+
+/* ---------- шапка (как в макете статьи) ---------- */
+.s-top{background:var(--s-top);display:flex;align-items:center;gap:16px;padding:13px 28px}
+.s-logo{flex:none;width:50px;height:50px;border-radius:50%;border:2px solid var(--s-teal);display:grid;place-items:center;color:var(--s-teal);background:var(--s-card)}
+.s-brand{min-width:0}
+.s-brand b{display:block;font-size:18px;line-height:1.2}
+.s-brand span{font-size:11.5px;font-weight:700;letter-spacing:.06em;color:var(--s-teal)}
+.s-brand em{font-style:normal;font-size:11px;color:var(--s-muted);margin-left:10px}
+.s-contacts{margin-left:auto;display:flex;align-items:center;gap:16px;white-space:nowrap;font-weight:700;font-size:15px}
+.s-btn{display:inline-block;background:var(--s-teal);color:var(--s-teal-ink);font:700 12.5px/1 var(--f-site);text-transform:uppercase;letter-spacing:.02em;padding:11px 16px;border-radius:3px;white-space:nowrap}
+.s-burger{display:none;margin-left:auto;width:40px;height:40px;border-radius:4px;background:var(--s-soft);place-items:center}
+.s-nav{background:var(--s-top);border-top:1px solid var(--s-line);display:flex;flex-wrap:wrap;gap:6px 20px;padding:11px 28px;font-weight:700;font-size:14px;text-transform:uppercase}
+.s-nav span.on{color:var(--s-teal)}
+
+/* ---------- страница ---------- */
+.s-main{padding:0 28px 34px}
+.s-crumbs{font-size:13px;color:var(--s-muted);padding:16px 0 4px}
+.s-h1{font-size:26px;line-height:1.25;font-weight:700;margin:6px 0 0;text-wrap:balance}
+.s-h1::after{content:"";display:block;width:35px;height:3px;background:var(--s-teal);margin-top:12px}
+.s-lead{margin:16px 0 0}
+
+/* пояснение к макету для заказчицы — на сайте его не будет */
+.m-note{margin-top:18px;padding:14px 18px;background:var(--s-soft);border:1px dashed var(--s-teal);border-radius:6px;font-size:14px}
+.m-note p{margin:0 0 6px}
+.m-note p:last-child{margin-bottom:0}
+
+/* «нужно запросить» — жёлтая пометка там, где на сайте нет данных */
+.ask{margin:10px 0;padding:8px 12px;background:var(--s-ask);color:var(--s-ask-ink);border-left:3px solid var(--s-ask-line);border-radius:4px;font-size:13.5px;line-height:1.5}
+.ask b{font-weight:700}
+.ask-mark{background:var(--s-ask);color:var(--s-ask-ink);padding:1px 6px;border-radius:3px}
+
+/* ---------- блок врача ---------- */
+.doc{margin-top:34px}
+/* шапка врача — та же карточка, что «Автор статьи» в макете статьи */
+.author{display:grid;grid-template-columns:76px minmax(0,1fr);gap:4px 18px;align-items:center;background:var(--s-card);border:1px solid var(--s-line);border-radius:6px;padding:16px 20px}
+.author-photo{display:block;width:76px;height:76px;border-radius:50%;object-fit:cover}
+.author-label{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--s-teal)}
+.author-line{font-size:14px;color:var(--s-muted);line-height:1.45;margin-top:2px}
+.site .author-name{display:block;font-size:16.5px;font-weight:700;margin-bottom:2px}
+.author-body{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:16px;align-items:center}
+.author-line{grid-column:1 / -1}
+.author-meta{grid-row:1;grid-column:2;display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--s-teal-soft);font-size:12.5px;line-height:1;padding:5px 9px;border-radius:20px}
+
+/* ---------- таблица услуг: сетка, на телефоне строки перестраиваются ---------- */
+.pr{margin-top:6px}
+.pr-row{display:grid;grid-template-columns:minmax(0,1fr) 100px 110px 230px;grid-template-areas:"name time price code";column-gap:20px;align-items:baseline;padding:14px 4px;border-bottom:1px solid var(--s-line)}
+.pr-head{padding-block:12px 8px;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--s-muted);line-height:1.35}
+.pr-name{grid-area:name;font-weight:500}
+.pr-time{grid-area:time;color:var(--s-muted);white-space:nowrap}
+.pr-price{grid-area:price;text-align:right;font-weight:700;font-size:17px;white-space:nowrap}
+/* подпись столбца «Стоимость» — кеглем шапки, а не крупной цифрой цены */
+.pr-head .pr-price{font-size:inherit}
+.pr-code{grid-area:code;font-size:12px;line-height:1.4;color:var(--s-muted)}
+
+/* значок «?»: тонкий зелёный кружок, открывает окно по нажатию */
+.q{display:inline-grid;place-items:center;width:22px;height:22px;margin-left:6px;vertical-align:1px;padding:0;border:1.5px solid var(--s-teal);border-radius:50%;background:none;color:var(--s-teal);font:700 13px/1 var(--f-site);cursor:pointer}
+.q:hover,.q:focus-visible{background:var(--s-teal-soft)}
+
+/* документы под таблицами — требование закона */
+.pr-docs{margin-top:34px;padding-top:20px;border-top:1px solid var(--s-line);display:flex;flex-wrap:wrap;gap:8px 28px;font-weight:500}
+
+/* ---------- окно с описанием услуги ---------- */
+.pop{width:min(600px,calc(100% - 32px));max-height:calc(100% - 48px);margin:auto;padding:0;border:0;border-top:3px solid var(--s-teal);border-radius:6px;box-shadow:0 12px 40px -8px rgba(0,0,0,.4);color:var(--s-ink);font:15px/1.6 var(--f-site)}
+.pop::backdrop{background:rgba(0,0,0,.45)}
+/* поля — у внутренней обёртки: нажатие на поля не считается нажатием «за окном» */
+.pop-in{padding:24px 28px 26px}
+.pop h3{margin:0 40px 12px 0;font-size:18.5px;line-height:1.3}
+.pop h4{margin:16px 0 6px;font-size:15.5px}
+.pop p{margin:0 0 10px}
+.pop ul{margin:0 0 12px;padding-left:22px}
+.pop li{margin-bottom:4px}
+.pop-link{display:inline-block;margin-top:6px;font-weight:500;color:var(--s-teal);text-underline-offset:2px}
+/* крестик — две линии псевдоэлементами */
+.pop-x{position:absolute;top:10px;right:10px;width:36px;height:36px;padding:0;border:0;background:none;cursor:pointer}
+.pop-x::before,.pop-x::after{content:"";position:absolute;top:50%;left:50%;width:18px;height:2px;background:var(--s-muted);transform:translate(-50%,-50%) rotate(45deg)}
+.pop-x::after{transform:translate(-50%,-50%) rotate(-45deg)}
+
+/* ---------- запись на приём: всегда внизу экрана (как в макете статьи) ---------- */
+.cta-bar{position:sticky;bottom:12px;z-index:10;margin:0 28px 12px;background:var(--s-card);border-top:3px solid var(--s-teal);border-radius:6px;box-shadow:0 6px 22px -6px rgba(0,0,0,.35)}
+.cta-bar-in{display:flex;align-items:center;gap:14px;padding:10px 20px}
+.cta-bar-icon{flex:none;color:var(--s-teal)}
+.cta-bar-text{flex:none;display:flex;align-items:center;gap:2px 16px}
+.cta-bar-phones{display:grid}
+.site .cta-bar-phone{font-size:16px;line-height:1.3;font-weight:700;color:var(--s-ink);text-decoration:none;white-space:nowrap}
+.cta-bar-hours{font-size:13.5px;color:var(--s-muted);white-space:nowrap}
+.site .cta-bar-btn{margin-left:auto;background:var(--s-teal);color:var(--s-teal-ink);font:700 13px/1 var(--f-site);text-transform:uppercase;letter-spacing:.02em;padding:13px 20px;border-radius:3px;white-space:nowrap;text-decoration:none}
+
+.s-foot{background:var(--s-top);border-top:1px solid var(--s-line);padding:16px 28px;font-size:13px;color:var(--s-muted)}
+
+/* ---------- планшет: код услуги уходит под строку ---------- */
+@container site (max-width:900px){
+  .pr-row{grid-template-columns:minmax(0,1fr) 90px 100px;grid-template-areas:"name time price" "code code code";row-gap:4px}
+  .pr-head .pr-code{display:none}
+}
+
+/* ---------- телефон ---------- */
+@container site (max-width:700px){
+  .s-top{padding:10px 16px;gap:10px}
+  .s-logo{width:40px;height:40px}
+  .s-brand b{font-size:14px}
+  .s-brand span{font-size:10px}
+  .s-brand em,.s-contacts,.s-nav{display:none}
+  .s-burger{display:grid}
+  .s-main{padding:0 14px 26px}
+  .s-h1{font-size:22px}
+  /* напротив фото — только подпись; имя, регалии и часы — под фото во всю ширину */
+  .author{grid-template-columns:60px minmax(0,1fr);gap:10px 12px;padding:14px}
+  .author-photo{width:60px;height:60px}
+  .author-body{display:contents}
+  .author-meta{grid-row:auto;grid-column:1 / -1;justify-self:end}
+  /* строка услуги: название во всю ширину, ниже длительность и цена, ниже код */
+  .pr-head{display:none}
+  .pr-row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"name name" "time price" "code code";row-gap:6px;padding:14px 2px}
+  .pop-in{padding:20px 18px 22px}
+  .cta-bar{margin-inline:14px;bottom:8px}
+  .cta-bar-in{padding:10px 14px;gap:10px}
+  .cta-bar-icon{display:none}
+  .cta-bar-text{flex-direction:column;align-items:flex-start;gap:2px}
+  .site .cta-bar-phone{font-size:15px}
+  .cta-bar-hours{font-size:12.5px}
+  .site .cta-bar-btn{padding:10px 14px;font-size:12px;line-height:1.2;white-space:normal;text-align:center}
+  .s-foot{padding:14px 16px}
+}
+</style>
+</head>
+<body>
+<div class="site">
+<header>
+  <div class="s-top">
+    <div class="s-logo" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="16" cy="12" r="7"/><circle cx="11" cy="14" r="4"/><circle cx="21" cy="14" r="4"/><path d="M16 17v10M12 27h8M16 22l-4-3M16 21l4-3"/></svg></div>
+    <div class="s-brand"><b>Клиника классической гомеопатии им.&nbsp;С.&nbsp;Ганемана</b><span>НАУКА И ИСКУССТВО ИСЦЕЛЕНИЯ</span><em>Лицензия № ЛО-77-01-021174</em></div>
+    <div class="s-contacts"><span>+7(495) 268-07-48</span><span>+7(915) 306-47-08</span><span class="s-btn">Записаться на приём</span></div>
+    <div class="s-burger" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></div>
+  </div>
+  <nav class="s-nav" aria-label="Меню сайта (макет)"><span>Главная</span><span>Гомеопатия</span><span>Оздоровление</span><span>Публикации</span><span class="on">Пациенту</span><span>Обучение</span><span>О клинике</span><span>Контакты</span></nav>
+</header>
+
+<main class="s-main">
+  <div class="s-crumbs"><u>Главная</u> › <u>Пациенту</u> › Прейскурант</div>
+  <h1 class="s-h1">Прейскурант</h1>
+  <p class="s-lead">Стоимость приёма у врачей клиники. Нажмите на&nbsp;<b>?</b> рядом с услугой — откроется описание: что входит в консультацию.</p>
+
+  <div class="m-note">
+    <p><b>Пояснение к макету.</b> Каждый врач — отдельный блок: фото, имя, часы приёма и таблица его услуг. Сейчас показаны два врача; все остальные врачи клиники будут выведены так же, один за другим. На странице самого врача выводится та же таблица, только без фото.</p>
+    <p>Описания услуг заполняются один раз и подставляются всем врачам. <span class="ask-mark">Жёлтым</span> отмечено, какую информацию нужно уточнить.</p>
+  </div>
+
+  <!-- Врач: Сидоренко Е. В. -->
+  <section class="doc" aria-label="Сидоренко Елена Валерьевна — услуги и цены">
+    <div class="author">
+      <img class="author-photo" src="data:image/jpeg;base64,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" alt="Сидоренко Елена Валерьевна" title="Сидоренко Елена Валерьевна" width="200" height="200">
+      <div class="author-body">
+        <div class="author-label">Врач-педиатр, гомеопат</div>
+        <div class="author-line"><a class="author-name" href="https://homeopat-classic.ru/elena-valerevna-sidorenko" title="Сидоренко Елена Валерьевна — страница врача" target="_blank" rel="noopener">Сидоренко Елена Валерьевна</a>исполнительный директор клиники, врач-педиатр, классический гомеопат, врач интегративной и восстановительной медицины, специалист по традиционной медицине и оздоровлению, член НПАЕКМ, преподаватель Швейцарской школы классической гомеопатии. Ведущая Круглых столов и клинических разборов для гомеопатов, член РГО и HMLI.</div>
+        <div class="author-meta"><span class="chip">Приём: чт, сб, 12:00–20:00</span></div>
+      </div>
+    </div>
+
+    <div class="pr">
+      <div class="pr-row pr-head">
+        <div class="pr-name">Услуга</div>
+        <div class="pr-time">Длительность</div>
+        <div class="pr-price">Стоимость</div>
+        <div class="pr-code">Код и наименование по номенклатуре медицинских услуг</div>
+      </div>
+      <div class="pr-row">
+        <div class="pr-name">Консультация врача-педиатра, владеющего методом гомеопатии, преподавателя гомеопатии, первичная<button class="q" type="button" data-pop="pop-first" aria-label="Что входит в первичную консультацию">?</button></div>
+        <div class="pr-time">2 часа</div>
+        <div class="pr-price">23 000 ₽</div>
+        <div class="pr-code">B01.031.001 Прием (осмотр, консультация) врача-педиатра первичный</div>
+      </div>
+      <div class="ask"><b>Нужно запросить:</b> на сайте две цены первичной консультации — 23&nbsp;000&nbsp;₽ на странице врача и 17&nbsp;000&nbsp;₽ в прейскуранте PDF от 01.10.2026. Поставлена бо́льшая — подтвердите цену. В PDF после слов «преподавателя гомеопатии» стоит звёздочка (*) без расшифровки — нужна ли сноска?</div>
+      <div class="pr-row">
+        <div class="pr-name">Консультация врача-педиатра, владеющего методом гомеопатии, повторная<button class="q" type="button" data-pop="pop-repeat" aria-label="Что входит в повторную консультацию">?</button></div>
+        <div class="pr-time">1 час</div>
+        <div class="pr-price">9 000 ₽</div>
+        <div class="pr-code">B01.031.002 Прием (осмотр, консультация) врача-педиатра повторный</div>
+      </div>
+      <div class="pr-row">
+        <div class="pr-name">Консультация врача-педиатра, владеющего методом гомеопатии, по острому состоянию<button class="q" type="button" data-pop="pop-acute" aria-label="Что входит в консультацию по острому состоянию">?</button></div>
+        <div class="pr-time">30 мин</div>
+        <div class="pr-price">5 500 ₽</div>
+        <div class="pr-code">B01.031.001 Прием (осмотр, консультация) врача-педиатра по острому состоянию</div>
+      </div>
+      <div class="pr-row">
+        <div class="pr-name">Консультация по коррекции лечения<button class="q" type="button" data-pop="pop-fix" aria-label="Что входит в консультацию по коррекции лечения">?</button></div>
+        <div class="pr-time">30 мин</div>
+        <div class="pr-price">4 500 ₽</div>
+        <div class="pr-code">B01.031.002 Прием (осмотр, консультация) врача-педиатра повторный</div>
+      </div>
+      <div class="ask"><b>Нужно запросить:</b> описания услуг написаны о взрослом пациенте. Подходят ли они для детского приёма или для педиатра нужен свой текст?</div>
+    </div>
+  </section>
+
+  <!-- Врач: Захватаева О. Г. -->
+  <section class="doc" aria-label="Захватаева Ольга Геннадьевна — услуги и цены">
+    <div class="author">
+      <img class="author-photo" src="data:image/jpeg;base64,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" alt="Захватаева Ольга Геннадьевна" title="Захватаева Ольга Геннадьевна" width="200" height="200">
+      <div class="author-body">
+        <div class="author-label">Врач-терапевт, гомеопат</div>
+        <div class="author-line"><a class="author-name" href="https://homeopat-classic.ru/olga-gennadevna-zaxvataeva" title="Захватаева Ольга Геннадьевна — страница врача" target="_blank" rel="noopener">Захватаева Ольга Геннадьевна</a>доктор классической гомеопатии, врач-терапевт, специалист по оздоровлению, по активационной терапии препаратом АСД. Завуч Российской школы классической гомеопатии Ирины Кузьминой. Член РГО и LMHI.</div>
+        <div class="author-meta"><span class="chip">Приём: вт, 14:00–18:00</span></div>
+      </div>
+    </div>
+
+    <div class="pr">
+      <div class="pr-row pr-head">
+        <div class="pr-name">Услуга</div>
+        <div class="pr-time">Длительность</div>
+        <div class="pr-price">Стоимость</div>
+        <div class="pr-code">Код и наименование по номенклатуре медицинских услуг</div>
+      </div>
+      <div class="pr-row">
+        <div class="pr-name">Консультация врача-терапевта, владеющего методом гомеопатии, первичная<button class="q" type="button" data-pop="pop-first" aria-label="Что входит в первичную консультацию">?</button></div>
+        <div class="pr-time">2 часа</div>
+        <div class="pr-price">10 000 ₽</div>
+        <div class="pr-code">B01.047.001 Прием (осмотр, консультация) врача-терапевта первичный</div>
+      </div>
+      <div class="pr-row">
+        <div class="pr-name">Консультация врача-терапевта, владеющего методом гомеопатии, повторная<button class="q" type="button" data-pop="pop-repeat" aria-label="Что входит в повторную консультацию">?</button></div>
+        <div class="pr-time">1 час</div>
+        <div class="pr-price">8 000 ₽</div>
+        <div class="pr-code">B01.047.002 Прием (осмотр, консультация) врача-терапевта повторный</div>
+      </div>
+      <div class="pr-row">
+        <div class="pr-name">Консультация врача-терапевта, владеющего методом гомеопатии, по острому состоянию<button class="q" type="button" data-pop="pop-acute" aria-label="Что входит в консультацию по острому состоянию">?</button></div>
+        <div class="pr-time">30 мин</div>
+        <div class="pr-price">5 500 ₽</div>
+        <div class="pr-code">B01.047.001 Прием (осмотр, консультация) врача-терапевта по острому состоянию</div>
+      </div>
+      <div class="pr-row">
+        <div class="pr-name">Консультация по коррекции лечения<button class="q" type="button" data-pop="pop-fix" aria-label="Что входит в консультацию по коррекции лечения">?</button></div>
+        <div class="pr-time">30 мин</div>
+        <div class="pr-price">4 500 ₽</div>
+        <div class="pr-code">B01.047.002 Прием (осмотр, консультация) врача-терапевта повторный</div>
+      </div>
+      <div class="pr-row">
+        <div class="pr-name">Консультация врача-терапевта, владеющего методом активационной терапии (АСД)<button class="q" type="button" data-pop="pop-asd" aria-label="Что входит в консультацию по активационной терапии">?</button></div>
+        <div class="pr-time">1 час</div>
+        <div class="pr-price">6 000 ₽</div>
+        <div class="pr-code">B01.047.002 Прием (осмотр, консультация) врача-терапевта повторный</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="pr-docs">
+    <a href="https://homeopat-classic.ru/programmy-gosgarantiy" title="Программы госгарантий" target="_blank" rel="noopener">Программы госгарантий</a>
+    <a href="https://homeopat-classic.ru/docs/301/price_01102026.pdf" title="Прейскурант редакция от 01.10.2026 (PDF)" target="_blank" rel="noopener">Прейскурант редакция от 01.10.2026 (PDF)</a>
+  </div>
+</main>
+
+<!-- Описания услуг: одно окно на услугу, общее для всех врачей -->
+<dialog class="pop" id="pop-first" aria-labelledby="pop-first-h">
+  <div class="pop-in">
+    <h3 id="pop-first-h">Первичная гомеопатическая консультация</h3>
+    <p>Это разбор клинического случая пациента, впервые обращающегося за консультацией к Специалисту клиники, или прервавшего по каким-либо причинам гомеопатическое лечение у данного Специалиста более 6 месяцев назад.</p>
+    <h4>На первичной консультации:</h4>
+    <ul>
+      <li>собираются подробные сведения о жалобах, которые больше всего беспокоят на момент приема;</li>
+      <li>подробные сведения о всех остальных, менее значимых жалобах;</li>
+      <li>сведения о истории развития заболевания;</li>
+      <li>сведения о всех болезнях, перенесенных с рождения за всю жизнь;</li>
+      <li>сведения о методах лечения, применявшихся ранее и их результатах;</li>
+      <li>сведения о генетической предрасположенности (генеология);</li>
+      <li>подробные сведения об общих и местных проявлениях болезни и индивидуальных особенностях реагирования организма пациента;</li>
+      <li>расписывается рекомендованный курс приема гомеопатических лекарств;</li>
+      <li>выдаются рекомендации о питании, образе жизни и ограничениях в связи с приемом гомеопатических лекарств.</li>
+    </ul>
+    <a class="pop-link" href="https://homeopat-classic.ru/kak-podgotovitsya-k-priemu" title="Как подготовиться к приему?" target="_blank" rel="noopener">Как подготовиться к приёму →</a>
+    <div class="ask"><b>Нужно запросить:</b> отдельной страницы о первичной консультации на сайте нет — ссылка ведёт на ближайшую по теме. Нужна ли своя страница?</div>
+  </div>
+  <button class="pop-x" type="button" aria-label="Закрыть" autofocus></button>
+</dialog>
+
+<dialog class="pop" id="pop-repeat" aria-labelledby="pop-repeat-h">
+  <div class="pop-in">
+    <h3 id="pop-repeat-h">Повторная гомеопатическая консультация</h3>
+    <p>Это анализ динамики состояния здоровья пациента в процессе гомеопатического лечения с рекомендациями на следующий контрольный период лечения.</p>
+    <h4>На повторной консультации:</h4>
+    <ul>
+      <li>собираются и анализируются сведения о реакциях организма на назначенные гомеопатические лекарства;</li>
+      <li>сведения о динамике жалоб, с которыми клиент обращался в прошлый раз;</li>
+      <li>сведения об изменениях в индивидуальной реактивности организма в процессе гомеопатического лечения;</li>
+      <li>сведения о перенесенных острых болезнях или обострениях хронических заболеваний с момента начала гомеопатического лечения;</li>
+      <li>расписывается рекомендованный курс приема гомеопатических лекарств;</li>
+      <li>рекомендуются, при показаниях, контрольные методы диагностики или консультации специалистов;</li>
+      <li>выдаются рекомендации о питании, образе жизни и ограничениях в связи с приемом гомеопатических лекарств.</li>
+    </ul>
+    <a class="pop-link" href="https://homeopat-classic.ru/oprosnik-dlya-povtornogo-priema" title="Опросник для повторного приема" target="_blank" rel="noopener">Опросник для повторного приёма →</a>
+    <div class="ask"><b>Нужно запросить:</b> отдельной страницы о повторной консультации на сайте нет — ссылка ведёт на ближайшую по теме. Нужна ли своя страница?</div>
+  </div>
+  <button class="pop-x" type="button" aria-label="Закрыть" autofocus></button>
+</dialog>
+
+<dialog class="pop" id="pop-acute" aria-labelledby="pop-acute-h">
+  <div class="pop-in">
+    <h3 id="pop-acute-h">Гомеопатическая консультация по острому состоянию</h3>
+    <p>В стоимость консультации входят рекомендации по гомеопатическому лечению и удаленное сопровождение в течении 3 суток (ответы на вопросы, отслеживание динамики состояния в течение рабочего дня).</p>
+    <h4>Что является острым заболеванием?</h4>
+    <p>Острыми заболеваниями являются заболевания, вызванные острой бактериальной или вирусной инфекцией за исключением хронических или рецидивирующих инфекционных процессов, сопровождающих хроническую патологию. К острым заболеваниям так же относятся болезненные последствия травм, ожогов, отравлений, обморожений и прочих неотложных состояний, возникших в результате повреждающего воздействия окружающей среды.</p>
+    <a class="pop-link" href="https://homeopat-classic.ru/voprosy-po-ostromu-sostoyaniyu" title="Вопросы по острому состоянию" target="_blank" rel="noopener">Вопросы по острому состоянию →</a>
+    <div class="ask"><b>Нужно запросить:</b> отдельной страницы о консультации по острому состоянию на сайте нет — ссылка ведёт на ближайшую по теме. Нужна ли своя страница?</div>
+  </div>
+  <button class="pop-x" type="button" aria-label="Закрыть" autofocus></button>
+</dialog>
+
+<dialog class="pop" id="pop-fix" aria-labelledby="pop-fix-h">
+  <div class="pop-in">
+    <h3 id="pop-fix-h">Внеплановая консультация (коррекция)</h3>
+    <p>Коррекция рекомендаций в связи с нежелательными реакциями в процессе лечения. Внеплановая коррекция так же может быть назначена в случаях, требующих более частого, чем обычно, отслеживания реакции на назначенный препарат в связи с тяжестью заболевания.</p>
+    <a class="pop-link" href="https://homeopat-classic.ru/proxodyashhemu-kurs-gomeopaticheskogo-lecheniya" title="Проходящему курс гомеопатического лечения" target="_blank" rel="noopener">Проходящему курс гомеопатического лечения →</a>
+    <div class="ask"><b>Нужно запросить:</b> отдельной страницы о коррекции лечения на сайте нет — ссылка ведёт на ближайшую по теме. Нужна ли своя страница?</div>
+  </div>
+  <button class="pop-x" type="button" aria-label="Закрыть" autofocus></button>
+</dialog>
+
+<dialog class="pop" id="pop-asd" aria-labelledby="pop-asd-h">
+  <div class="pop-in">
+    <h3 id="pop-asd-h">Консультация по оздоровлению препаратом АСД (Активационная терапия)</h3>
+    <p>Это индивидуальный подбор схем и доз применения адаптогена АСД (Антисептик-стимулятор Дорогова) в комплексной терапии хронических заболеваний по авторской методике Дороговой О.А.</p>
+    <h4>На консультации по Активационной терапии:</h4>
+    <ul>
+      <li>собираются подробные сведения о жалобах, которые больше всего беспокоят на момент приема;</li>
+      <li>подробные сведения о всех остальных, менее значимых жалобах;</li>
+      <li>подробные сведения о общих и местных проявлениях болезни и индивидуальных особенностях реагирования организма пациента;</li>
+      <li>анализируются данные медицинских обследований, анализов, выписок из историй болезни и пр.;</li>
+      <li>на основании всей полученной информации, рекомендуется курс применения АСД;</li>
+      <li>при необходимости, рекомендуются необходимые обследования и мед. анализы и консультации специалистов;</li>
+      <li>выдаются рекомендации о питании, образе жизни и ограничениях в связи с приемом АСД.</li>
+    </ul>
+    <a class="pop-link" href="https://homeopat-classic.ru/opisanie-metodiki-aktivacionnaya-terapiya" title="Описание методики Активационная терапия" target="_blank" rel="noopener">Описание методики Активационная терапия →</a>
+  </div>
+  <button class="pop-x" type="button" aria-label="Закрыть" autofocus></button>
+</dialog>
+
+<!-- Запись на приём: закреплена внизу экрана -->
+<div class="cta-bar" role="complementary" aria-label="Запись на приём">
+  <div class="cta-bar-in">
+    <svg class="cta-bar-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+    <div class="cta-bar-text">
+      <div class="cta-bar-phones">
+        <a class="cta-bar-phone" href="tel:+74952680748" title="Позвонить в клинику">+7 (495) 268-07-48</a>
+        <a class="cta-bar-phone" href="tel:+79153064708" title="Позвонить в клинику">+7 (915) 306-47-08</a>
+      </div>
+      <span class="cta-bar-hours">пн–сб, 10:00–20:00</span>
+    </div>
+    <a class="cta-bar-btn" href="#" title="Записаться на приём">Записаться на приём</a>
+  </div>
+</div>
+<div class="s-foot">Клиника классической гомеопатии им. С. Ганемана · Москва, Посланников пер., 3, стр. 5 · м. «Бауманская» · пн–сб, 10:00–20:00</div>
+</div>
+<script>
+// Окна с описанием услуг: открываются по нажатию на «?», закрываются крестиком, клавишей Esc и нажатием за окном
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-pop]');
+  if (btn) {
+    document.getElementById(btn.dataset.pop).showModal();
+    return;
+  }
+  if (e.target.matches('.pop-x')) e.target.closest('dialog').close();
+  else if (e.target.matches('dialog.pop')) e.target.close();
+});
+</script>
+</body>
+</html>
